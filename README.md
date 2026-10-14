@@ -3,12 +3,22 @@
 A macOS helper that fixes Wispr Flow when it types only "v" in a TeamViewer window.
 
 [![CI](https://github.com/jedashford/wispr-teamviewer-fix/actions/workflows/ci.yml/badge.svg)](https://github.com/jedashford/wispr-teamviewer-fix/actions/workflows/ci.yml)
+[![Latest release](https://img.shields.io/github/v/release/jedashford/wispr-teamviewer-fix)](https://github.com/jedashford/wispr-teamviewer-fix/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Platform: macOS](https://img.shields.io/badge/platform-macOS-lightgrey.svg)
+![Language: Swift](https://img.shields.io/badge/language-Swift-F05138.svg?logo=swift&logoColor=white)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 <img src="docs/images/social-card.png" alt="Wispr TeamViewer Fix. Before: Wispr Flow types only the letter v in a TeamViewer window. After: the full sentence arrives on the remote computer. Install with ./install.sh, turn on one switch, done." width="100%">
 
 > This project is independent. It is not affiliated with Wispr or TeamViewer.
+
+**Contents**
+
+- **Start:** [At a glance](#at-a-glance) · [See it run](#see-it-run) · [The problem](#the-problem) · [Why it happens](#why-it-happens)
+- **Use:** [Install](#install) · [Test it](#test-it) · [Check your setup](#check-your-setup) · [Remote computer runs Windows](#remote-computer-runs-windows) · [Update](#update) · [Uninstall](#uninstall)
+- **Reference:** [Terminal options](#terminal-options) · [Log file](#log-file) · [Problems and solutions](#problems-and-solutions) · [How it works](#how-it-works)
+- **Project:** [Support](#support) · [Contributing](#contributing) · [License](#license)
 
 ## At a glance
 
@@ -20,17 +30,24 @@ A macOS helper that fixes Wispr Flow when it types only "v" in a TeamViewer wind
 | **Idle cost**       | No measurable CPU. Memory: about 3 MB.                                                                                              |
 | **Paste apps**      | Wispr Flow: tested. TextExpander, Keyboard Maestro, Text Blaze and other apps that paste with a synthetic Cmd+V: not tested yet.    |
 | **Permissions**     | Accessibility only. No network access. It never reads the clipboard.                                                                |
+| **Health check**    | `./doctor.sh` checks the install and prints a report. It only reads.                                                                |
 | **Version**         | 1.0.0                                                                                                                               |
 
 ### Supported versions
 
-| Status         | Setup                                                                                                          |
-| -------------- | -------------------------------------------------------------------------------------------------------------- |
-| Tested         | macOS 26.6 Tahoe on Apple Silicon, TeamViewer 15.69.4, Wispr Flow 1.6.1144, remote computer on macOS           |
-| Builds in CI   | macOS 14 and macOS 15 (build and self-check only)                                                              |
-| Not tested yet | Intel Macs, older macOS versions, remote computer on Windows (the `--windows` option exists), other paste apps |
+| Status         | Setup                                                                                                                                    |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Tested         | macOS 26.6 Tahoe on Apple Silicon, TeamViewer 15.69.4, Wispr Flow 1.6.1144, remote computer on macOS                                     |
+| Builds in CI   | macOS 14 and macOS 15 runners. Universal binary (arm64 and x86_64). Deployment target macOS 13. Build and self-check only.               |
+| Not tested yet | Intel Macs (at runtime), older macOS versions (at runtime), remote computer on Windows (the `--windows` option exists), other paste apps |
 
-If you use a setup that is not tested yet, please report your results in an [issue](https://github.com/jedashford/wispr-teamviewer-fix/issues).
+If you use a setup that is not tested yet, send your results with the [compatibility report form](https://github.com/jedashford/wispr-teamviewer-fix/issues/new?template=compatibility_report.yml).
+
+## See it run
+
+![Animated terminal demo: ./install.sh prints the logo, check lines, and then a lone v turns into a full sentence](docs/demo.svg)
+
+The animation shows the real output of `./install.sh`.
 
 ## The problem
 
@@ -59,7 +76,7 @@ An event log on a real Mac shows this sequence:
 - A Mac with TeamViewer.
 - Apple Command Line Tools. The installer uses `swiftc` from these tools.
 
-If Swift is not on your Mac, the installer opens the Apple installer window. When that installation is complete, run `./install.sh` again.
+If Swift is not on your Mac, the installer shows `✗ Swift is missing` and opens the Apple installer window. When that installation is complete, run `./install.sh` again.
 
 ### Steps
 
@@ -76,22 +93,50 @@ If Swift is not on your Mac, the installer opens the Apple installer window. Whe
    ```bash
    ./install.sh
    ```
-   The output of the installer starts with these lines:
+   On a first install, the output is similar to this:
    ```text
-   Building...
-   selftest ok
+     ╦ ╦╦╔═╗╔═╗╦═╗  ╔╦╗╔═╗╔═╗╔╦╗╦  ╦╦╔═╗╦ ╦╔═╗╦═╗  ╔═╗╦═╗ ╦
+     ║║║║╚═╗╠═╝╠╦╝   ║ ║╣ ╠═╣║║║╚╗╔╝║║╣ ║║║║╣ ╠╦╝  ╠╣ ║╔╩╦╝
+     ╚╩╝╩╚═╝╩  ╩╚═   ╩ ╚═╝╩ ╩╩ ╩ ╚╝ ╩╚═╝╚╩╝╚═╝╩╚═  ╚  ╩╩ ╚═
+     paste fix for Wispr Flow in TeamViewer · v1.0.0
 
-   Installed. One step is left: give WisprTeamViewerFix Accessibility access.
+     ✓ macOS 26.6.2 on arm64
+     ✓ Swift 6.3.3
+     ✓ Built helper (0.9s)
+     ✓ Self-check passed
+     ✓ Installed ~/Applications/WisprTeamViewerFix.app
+     ✓ Login service started (remote pastes with Cmd+V)
+
+     ! One step left: give WisprTeamViewerFix Accessibility access.
+       1. In the window from macOS, click "Open System Settings".
+       2. Turn on the switch next to WisprTeamViewerFix.
+       The Accessibility page opens now.
+
+     Log: ~/Library/Logs/wispr-teamviewer-fix.log
    ```
 5. The installer opens **System Settings → Privacy & Security → Accessibility**. macOS can also show this window. If you see it, click **Open System Settings**.
 
-   <img src="docs/images/accessibility-prompt.png" alt="macOS window: WisprTeamViewerFix would like to control this computer using accessibility features. Buttons: Open System Settings and Deny." width="460">
+   <img src="docs/images/accessibility-prompt.png" alt="macOS window: WisprTeamViewerFix asks to control this computer with accessibility features. Buttons: Open System Settings and Deny." width="460">
 
 6. Turn on the switch next to **WisprTeamViewerFix**.
 
    <img src="docs/images/accessibility-switch.png" alt="The Accessibility page in System Settings. The switch next to WisprTeamViewerFix is marked with the label Turn this on." width="500">
 
+7. Make sure that the helper runs. Do the steps in [Check your setup](#check-your-setup).
+
 The helper detects the access in approximately 2 seconds. You do not have to restart it.
+
+If the helper already has Accessibility access when the installer starts it, the output ends with these lines:
+
+```text
+  ✓ Running. It starts each time you log in.
+
+  remote> Hello from Wispr Flow. Every word arrives.
+
+  Log: ~/Library/Logs/wispr-teamviewer-fix.log
+```
+
+On a terminal, the `remote>` line first shows a lone "v" (the problem). Then the full sentence replaces it (the fix).
 
 #### If WisprTeamViewerFix is not in the list
 
@@ -119,8 +164,8 @@ If you turn off **wispr-teamviewer-fix** under **System Settings → General →
 4. It stops the login service if it runs.
 5. If the build changed, it puts the app bundle at `~/Applications/WisprTeamViewerFix.app` and removes the old Accessibility entry.
 6. It writes a login service file at `~/Library/LaunchAgents/io.github.jedashford.wispr-teamviewer-fix.plist`.
-7. It starts the login service.
-8. If the helper does not have Accessibility access, it opens the Accessibility page in System Settings.
+7. It empties the log file and starts the login service.
+8. It waits 2 seconds. If the helper does not have Accessibility access, it opens the Accessibility page in System Settings.
 
 The login service starts the helper each time you log in. It also restarts the helper if the helper stops. A new build does not match the old Accessibility access. For this reason, the installer removes the old entry.
 
@@ -131,6 +176,65 @@ The login service starts the helper each time you log in. It also restarts the h
 3. Dictate with Wispr Flow.
 4. Make sure that the full text appears on the remote computer.
 
+## Check your setup
+
+`doctor.sh` checks the install and prints a report. It only reads. It changes nothing.
+
+```bash
+./doctor.sh
+```
+
+You can also run `make doctor`. On a healthy Mac, the output is similar to this:
+
+```text
+  ╦ ╦╦╔═╗╔═╗╦═╗  ╔╦╗╔═╗╔═╗╔╦╗╦  ╦╦╔═╗╦ ╦╔═╗╦═╗  ╔═╗╦═╗ ╦
+  ║║║║╚═╗╠═╝╠╦╝   ║ ║╣ ╠═╣║║║╚╗╔╝║║╣ ║║║║╣ ╠╦╝  ╠╣ ║╔╩╦╝
+  ╚╩╝╩╚═╝╩  ╩╚═   ╩ ╚═╝╩ ╩╩ ╩ ╚╝ ╩╚═╝╚╩╝╚═╝╩╚═  ╚  ╩╩ ╚═
+  paste fix for Wispr Flow in TeamViewer · v1.0.0
+
+  System
+  ✓ macOS 26.6.2 on arm64
+  ✓ TeamViewer 15.69.4
+  ✓ Wispr Flow 1.6.1144
+  Helper
+  ✓ Installed: ~/Applications/WisprTeamViewerFix.app (1.0.0)
+  ✓ Login service loaded, running (pid 1788)
+  ✓ Accessibility access: on
+  ✓ Remote paste key: cmd
+  Recent log
+  · wispr-teamviewer-fix 1.0.0 running (remote pastes with cmd)
+  · cmd+v in TeamViewer: source pid=95042 physicalCmd=false
+  · replayed paste with cmd
+
+  All checks passed. Paste this output into a bug report if you need help.
+```
+
+| Mark | Meaning                                                                                            |
+| ---- | -------------------------------------------------------------------------------------------------- |
+| `✓`  | The check passed.                                                                                  |
+| `!`  | Warning. The doctor did not find an item, but the helper can work. This is not a failure.          |
+| `✗`  | The check failed. The line tells you what to do.                                                   |
+| `·`  | A line from the log file. **Recent log** shows the last 5 lines, or `(empty)` if the log is empty. |
+
+| Exit code | Meaning                                                                                |
+| --------- | -------------------------------------------------------------------------------------- |
+| `0`       | No check failed. Warnings can occur. The last line is `All checks passed...`.          |
+| `1`       | One or more checks failed. The last line is `N problem(s) found. See the hints above.` |
+
+If a check fails, do the step in the line:
+
+| Line                                                                                                              | What to do                                                                         |
+| ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `✗ Not installed. Run ./install.sh`                                                                               | Run `./install.sh`. The doctor skips the other helper checks.                      |
+| `✗ Login service not loaded. Run ./install.sh`                                                                    | Run `./install.sh`.                                                                |
+| `✗ Login service loaded, but <state>. launchd retries every 10 s. See the log below.`                             | Read the lines under **Recent log**. If the problem continues, open an issue.      |
+| `✗ Accessibility access: off. Turn on WisprTeamViewerFix in System Settings → Privacy & Security → Accessibility` | Turn on the switch. Refer to steps 5 and 6 of [Install](#steps).                   |
+| `✗ Service file missing: ... Run ./install.sh`                                                                    | Run `./install.sh`.                                                                |
+| `! TeamViewer not found in /Applications` (or Wispr Flow)                                                         | The doctor looks only in `/Applications`. The helper works from other folders too. |
+| `! Accessibility access: unknown. The log has no start line.`                                                     | Run `./install.sh` again. It empties the log and starts the helper.                |
+
+The [bug report form](https://github.com/jedashford/wispr-teamviewer-fix/issues/new?template=bug_report.yml) asks for this output. The output contains no typed text and no clipboard contents.
+
 ## Remote computer runs Windows
 
 Windows pastes with Ctrl+V, not Cmd+V. If the remote computer runs Windows, install with this command:
@@ -139,9 +243,9 @@ Windows pastes with Ctrl+V, not Cmd+V. If the remote computer runs Windows, inst
 ./install.sh --windows
 ```
 
-With `--windows`, the helper sends Control in the replay, not Command. To change between a remote Mac and a remote Windows computer, run the installer again. Use `--windows` only for a remote Windows computer.
+With `--windows`, the helper sends Control in the replay, not Command. The installer then shows `✓ Login service started (remote pastes with Ctrl+V)`. To change between a remote Mac and a remote Windows computer, run the installer again. Use `--windows` only for a remote Windows computer.
 
-This option has no tests yet. Please report your results in an [issue](https://github.com/jedashford/wispr-teamviewer-fix/issues).
+This option has no tests yet. Send your results with the [compatibility report form](https://github.com/jedashford/wispr-teamviewer-fix/issues/new?template=compatibility_report.yml).
 
 ## Update
 
@@ -154,7 +258,8 @@ This option has no tests yet. Please report your results in an [issue](https://g
    ```bash
    ./install.sh
    ```
-4. If the installer does not show `Same build as before`, give Accessibility access again. Do steps 5 and 6 of [Install](#steps).
+4. If the installer does not show `✓ Same build as before, Accessibility stays on`, give Accessibility access again. Do steps 5 and 6 of [Install](#steps).
+5. Run `./doctor.sh`. Make sure that the last line is `All checks passed...`.
 
 ## Uninstall
 
@@ -165,7 +270,23 @@ This option has no tests yet. Please report your results in an [issue](https://g
    ```
 3. Delete the `wispr-teamviewer-fix` folder.
 
-The uninstaller stops the helper. It deletes the app bundle, the login service file and the log file. It also removes the Accessibility entry.
+The uninstaller stops the helper. It deletes the app bundle, the login service file and the log file. It also removes the Accessibility entry. The last line is `Wispr TeamViewer Fix is removed. You can delete this folder now.`
+
+## Terminal options
+
+`install.sh`, `uninstall.sh` and `doctor.sh` use colors and animation on a terminal. These environment variables change the output. Any value that is not empty turns the option on.
+
+| Variable        | Effect                                                     |
+| --------------- | ---------------------------------------------------------- |
+| `NO_COLOR=1`    | No colors and no animation.                                |
+| `WTF_NO_ANIM=1` | No animation (spinner and closing animation). Colors stay. |
+| `CI`            | No colors and no animation.                                |
+
+If the output does not go to a terminal (for example, to a pipe or a file), the output is plain text. It has no colors and no animation. Example:
+
+```bash
+NO_COLOR=1 ./doctor.sh
+```
 
 ## Log file
 
@@ -175,7 +296,7 @@ The helper writes to `~/Library/Logs/wispr-teamviewer-fix.log`. To see new lines
 tail -f ~/Library/Logs/wispr-teamviewer-fix.log
 ```
 
-Press Ctrl+C to stop the command.
+Press Ctrl+C to stop the command. `./doctor.sh` also shows the last 5 lines.
 
 | Line                                                          | Description                                                                                                                                                            |
 | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -189,20 +310,22 @@ The log contains only Cmd+V events in TeamViewer. It never contains other key pr
 
 ## Problems and solutions
 
+### Start with the doctor
+
+1. Run the doctor.
+   ```bash
+   ./doctor.sh
+   ```
+2. If a line starts with `✗`, do the step in that line. Refer to [Check your setup](#check-your-setup).
+3. Run `./doctor.sh` again. Continue when the last line is `All checks passed...`.
+
 ### The remote computer still gets only "v"
 
-1. Open **System Settings → Privacy & Security → Accessibility**.
-2. Make sure that the switch next to **WisprTeamViewerFix** is on.
-3. Dictate a short text into TeamViewer.
-4. Look for a `replayed paste` line in the [log file](#log-file).
-5. If the log has no `cmd+v in TeamViewer` line, make sure that the helper runs.
-   ```bash
-   launchctl print gui/$(id -u)/io.github.jedashford.wispr-teamviewer-fix
-   ```
-6. If the output does not show `state = running`, run the installer again.
-   ```bash
-   ./install.sh
-   ```
+1. Run `./doctor.sh`. Make sure that it shows `✓ Accessibility access: on`.
+2. Dictate a short text into TeamViewer.
+3. Run `./doctor.sh` again. Look for `replayed paste` under **Recent log**.
+4. If **Recent log** has no `cmd+v in TeamViewer` line, do the steps in [The switch is on, but the fix stopped after an update](#the-switch-is-on-but-the-fix-stopped-after-an-update).
+5. If the problem continues, open an issue with the [bug report form](https://github.com/jedashford/wispr-teamviewer-fix/issues/new?template=bug_report.yml).
 
 ### The switch is on, but the fix stopped after an update
 
@@ -222,15 +345,16 @@ The log contains only Cmd+V events in TeamViewer. It never contains other key pr
 
 ### Nothing appears on a remote Windows computer
 
-1. If you installed with `--windows`, install again without it.
+1. Run `./doctor.sh`. Look at the `Remote paste key` line. It shows `ctrl` after `./install.sh --windows`.
+2. If you installed with `--windows`, install again without it.
    ```bash
    ./install.sh
    ```
-2. If you installed without `--windows`, install again with it.
+3. If you installed without `--windows`, install again with it.
    ```bash
    ./install.sh --windows
    ```
-3. Report the results in an [issue](https://github.com/jedashford/wispr-teamviewer-fix/issues).
+4. Report the results with the [compatibility report form](https://github.com/jedashford/wispr-teamviewer-fix/issues/new?template=compatibility_report.yml).
 
 ## How it works
 
@@ -249,6 +373,23 @@ Then the helper does these steps:
 3. It sends a full key sequence, 30 ms apart: modifier down, V down, V up, modifier up.
 
 TeamViewer sees a real modifier key press. As a result, it sends a real paste to the remote computer. The modifier is Command, or Control with `--windows`. If you press Cmd+V yourself, the helper does not change it.
+
+The same sequence as a diagram (default `--key cmd`):
+
+```text
+Wispr Flow         wispr-teamviewer-fix                     TeamViewer        remote
+    │                       │                                   │               │
+    │ V↓ (⌘ flag, no ⌘ key) │                                   │               │
+    │──────────────────────▶│ drop                              │               │
+    │ V↑                    │                                   │               │
+    │──────────────────────▶│ drop                              │               │
+    │                       │ wait 150 ms                       │               │
+    │                       │ ⌘↓ ─ V↓ ─ V↑ ─ ⌘↑  (30 ms apart)  │               │
+    │                       │──────────────────────────────────▶│ real ⌘V       │
+    │                       │                                   │──────────────▶│ "Hello…"
+```
+
+A Cmd+V that you type yourself (you hold the physical ⌘ key) passes through unchanged. With `--windows`, the replay uses Control (⌃), not Command.
 
 ### Delay flags
 
@@ -278,7 +419,16 @@ The installer writes a new login service file each time it runs. After you run `
 
 ## Support
 
-Open an issue with the [bug report form](https://github.com/jedashford/wispr-teamviewer-fix/issues/new/choose). The form asks for your versions and a log excerpt. To see the helper version, run this command:
+Run `./doctor.sh` first. Then use the form for your request:
+
+| Form                                                                                                                    | Use it when                                                                                   |
+| ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| [Bug report](https://github.com/jedashford/wispr-teamviewer-fix/issues/new?template=bug_report.yml)                     | The fix does not work. The form asks for the output of `./doctor.sh` and your versions.       |
+| [Compatibility report](https://github.com/jedashford/wispr-teamviewer-fix/issues/new?template=compatibility_report.yml) | You tried a setup that is not tested yet. A "works" report also helps.                        |
+| [Feature request](https://github.com/jedashford/wispr-teamviewer-fix/issues/new?template=feature_request.yml)           | You want a new feature or a change.                                                           |
+| [Security advisory](https://github.com/jedashford/wispr-teamviewer-fix/security/advisories/new)                         | You found a security problem. Do not use a public issue. Refer to [SECURITY.md](SECURITY.md). |
+
+To see the helper version, run this command:
 
 ```bash
 ~/Applications/WisprTeamViewerFix.app/Contents/MacOS/wispr-teamviewer-fix --version
@@ -286,7 +436,21 @@ Open an issue with the [bug report form](https://github.com/jedashford/wispr-tea
 
 ## Contributing
 
-Refer to [CONTRIBUTING.md](CONTRIBUTING.md). To report a security problem, refer to [SECURITY.md](SECURITY.md). For the changes in each version, refer to [CHANGELOG.md](CHANGELOG.md).
+The `Makefile` has shortcuts for contributors:
+
+| Command               | What it does                                                                              |
+| --------------------- | ----------------------------------------------------------------------------------------- |
+| `make` or `make test` | Builds the helper, then runs `--selftest` and `--version`.                                |
+| `make build`          | Builds the helper at `build/wispr-teamviewer-fix`.                                        |
+| `make lint`           | Runs ShellCheck on `install.sh`, `uninstall.sh`, `doctor.sh` and `lib/ui.sh`.             |
+| `make install`        | Runs `./install.sh`. For a remote Windows computer, run `./install.sh --windows` instead. |
+| `make uninstall`      | Runs `./uninstall.sh`.                                                                    |
+| `make doctor`         | Runs `./doctor.sh`.                                                                       |
+| `make clean`          | Deletes the `build` folder.                                                               |
+
+CI builds a universal binary and runs the self-check on macOS 14 and macOS 15. It also runs ShellCheck and a Prettier check of the docs. When you push a tag `vX.Y.Z`, the release workflow makes the GitHub release from the matching section of [CHANGELOG.md](CHANGELOG.md).
+
+For the full guide, refer to [CONTRIBUTING.md](CONTRIBUTING.md). To report a security problem, refer to [SECURITY.md](SECURITY.md).
 
 ## License
 

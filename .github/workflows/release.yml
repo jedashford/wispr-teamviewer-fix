@@ -1,0 +1,34 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract changelog section
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          VERSION="${TAG#v}"
+          # Body of ## [X.Y.Z]: stop at the next heading or the link references.
+          awk -v h="## [$VERSION]" 'index($0,h)==1{p=1;next} /^## \[/||/^\[.+\]: /{p=0} p' CHANGELOG.md > notes.md
+          if [ ! -s notes.md ]; then
+            echo "::error::No changelog section found for ${VERSION}"
+            exit 1
+          fi
+          cat notes.md
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          gh release create "$TAG" \
+            --title "Wispr TeamViewer Fix $TAG" \
+            --notes-file notes.md \
+            --verify-tag
