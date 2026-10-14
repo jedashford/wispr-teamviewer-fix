@@ -6,6 +6,8 @@ A macOS helper that fixes Wispr Flow when it types only "v" in a TeamViewer wind
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Platform: macOS](https://img.shields.io/badge/platform-macOS-lightgrey.svg)
 
+<img src="docs/images/social-card.png" alt="Wispr TeamViewer Fix. Before: Wispr Flow types only the letter v in a TeamViewer window. After: the full sentence arrives on the remote computer. Install with ./install.sh, turn on one switch, done." width="100%">
+
 > This project is independent. It is not affiliated with Wispr or TeamViewer.
 
 ## At a glance
