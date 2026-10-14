@@ -1,0 +1,4 @@
+/wispr-teamviewer-fix
+.DS_Store
+*.dSYM/
+.build/
