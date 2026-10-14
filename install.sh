@@ -52,7 +52,7 @@ codesign --force --sign - "$BUILD/$NAME.app" 2>/dev/null
 "$BUILD/$NAME.app/Contents/MacOS/$EXE" --selftest
 
 # Stop the old copy before replacing it.
-launchctl bootout "$DOMAIN/$ID" 2>/dev/null && sleep 1 || true
+if launchctl bootout "$DOMAIN/$ID" 2>/dev/null; then sleep 1; fi
 
 if cmp -s "$BUILD/$NAME.app/Contents/MacOS/$EXE" "$APP/Contents/MacOS/$EXE"; then
   echo "Same build as before. Your Accessibility access stays on."
