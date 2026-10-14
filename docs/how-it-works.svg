@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="366" viewBox="0 0 880 366" role="img" aria-labelledby="title desc">
+  <title id="title">How Wispr TeamViewer Fix works</title>
+  <desc id="desc">Two flows. Without the fix: Wispr Flow sends the V key with a Cmd flag but no Cmd key press. TeamViewer forwards only keys it saw pressed, so the remote computer gets a plain v. With Wispr TeamViewer Fix: the fix drops that event, waits 150 milliseconds, then sends Cmd down, V down, V up, Cmd up. TeamViewer forwards Cmd+V and the remote computer pastes Hello from Wispr Flow. The fix acts only when TeamViewer is the front app. A real Cmd+V that you type is not changed.</desc>
+  <style>
+    text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+    .card{fill:#f6f8fa;stroke:#d0d7de}
+    .box{fill:#fff;stroke:#d0d7de}
+    .fix{fill:#fff;stroke:#1a7f37;stroke-width:2}
+    .field{fill:#f6f8fa;stroke:#d0d7de}
+    .lane1{fill:#fff5f5;stroke:#ffcecb}
+    .lane2{fill:#f0fbf3;stroke:#b4e6c2}
+    .h1{fill:#b42318}
+    .h2{fill:#116329}
+    .txt{fill:#1f2328}
+    .mut{fill:#59636e}
+    .a1{stroke:#8c959f;stroke-width:1.75;fill:none}
+    .a2{stroke:#1a7f37;stroke-width:1.75;fill:none}
+    .m1{fill:#8c959f}
+    .m2{fill:#1a7f37}
+    .bad{fill:#cf222e}
+    .good{fill:#1a7f37}
+    .icon{stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;fill:none}
+    @media (prefers-color-scheme: dark){
+      .card{fill:#161b22;stroke:#30363d}
+      .box{fill:#0d1117;stroke:#3d444d}
+      .fix{fill:#0d1117;stroke:#3fb950}
+      .field{fill:#161b22;stroke:#3d444d}
+      .lane1{fill:#22171a;stroke:#5a2a2d}
+      .lane2{fill:#13241a;stroke:#2b5c3a}
+      .h1{fill:#ff8e86}
+      .h2{fill:#6fdd7f}
+      .txt{fill:#e6edf3}
+      .mut{fill:#9da7b3}
+      .a1{stroke:#7d8590}
+      .a2{stroke:#3fb950}
+      .m1{fill:#7d8590}
+      .m2{fill:#3fb950}
+      .bad{fill:#da3633}
+      .good{fill:#238636}
+    }
+  </style>
+  <defs>
+    <marker id="arr1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+      <path class="m1" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+    <marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+      <path class="m2" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+
+  <rect class="card" x="0.5" y="0.5" width="879" height="365" rx="14"/>
+
+  <!-- Lane 1: without the fix -->
+  <rect class="lane1" x="12" y="12" width="856" height="152" rx="12"/>
+  <text class="h1" x="28" y="36" font-size="13" font-weight="700">Without the fix</text>
+
+  <rect class="box" x="28" y="52" width="100" height="60" rx="10"/>
+  <text class="txt" x="78" y="87" font-size="14" font-weight="600" text-anchor="middle">Wispr Flow</text>
+
+  <line class="a1" x1="132" y1="82" x2="511" y2="82" marker-end="url(#arr1)"/>
+  <text class="txt" x="322" y="73" font-size="12" text-anchor="middle">V key + Cmd flag <tspan class="mut">(no Cmd press)</tspan></text>
+
+  <rect class="box" x="516" y="52" width="104" height="60" rx="10"/>
+  <text class="txt" x="568" y="87" font-size="14" font-weight="600" text-anchor="middle">TeamViewer</text>
+  <text class="mut" x="568" y="131" font-size="11.5" text-anchor="middle">forwards only keys</text>
+  <text class="mut" x="568" y="145" font-size="11.5" text-anchor="middle">it saw pressed</text>
+
+  <line class="a1" x1="624" y1="82" x2="673" y2="82" marker-end="url(#arr1)"/>
+  <text class="h1" x="649" y="73" font-size="13" font-weight="700" text-anchor="middle">v</text>
+
+  <rect class="box" x="678" y="52" width="174" height="60" rx="10"/>
+  <text class="mut" x="690" y="70" font-size="11.5" font-weight="600">Remote computer</text>
+  <rect class="field" x="688" y="78" width="154" height="24" rx="5"/>
+  <text class="txt" x="697" y="94.5" font-size="12.5">v</text>
+  <circle class="bad" cx="852" cy="52" r="10"/>
+  <path class="icon" d="M848,48 L856,56 M856,48 L848,56"/>
+
+  <!-- Lane 2: with the fix -->
+  <rect class="lane2" x="12" y="176" width="856" height="152" rx="12"/>
+  <text class="h2" x="28" y="200" font-size="13" font-weight="700">With Wispr TeamViewer Fix</text>
+
+  <rect class="box" x="28" y="216" width="100" height="60" rx="10"/>
+  <text class="txt" x="78" y="251" font-size="14" font-weight="600" text-anchor="middle">Wispr Flow</text>
+
+  <line class="a1" x1="132" y1="246" x2="235" y2="246" marker-end="url(#arr1)"/>
+  <text class="txt" x="184" y="237" font-size="12" text-anchor="middle">V key + Cmd flag</text>
+
+  <rect class="fix" x="240" y="216" width="160" height="60" rx="10"/>
+  <text class="txt" x="320" y="251" font-size="13" font-weight="700" text-anchor="middle">Wispr TeamViewer Fix</text>
+  <text class="h2" x="320" y="295" font-size="11.5" text-anchor="middle">drops it, waits 150 ms</text>
+
+  <line class="a2" x1="404" y1="246" x2="511" y2="246" marker-end="url(#arr2)"/>
+  <text class="txt" x="458" y="223" font-size="11" text-anchor="middle">Cmd down · V down</text>
+  <text class="txt" x="458" y="238" font-size="11" text-anchor="middle">V up · Cmd up</text>
+
+  <rect class="box" x="516" y="216" width="104" height="60" rx="10"/>
+  <text class="txt" x="568" y="251" font-size="14" font-weight="600" text-anchor="middle">TeamViewer</text>
+
+  <line class="a2" x1="624" y1="246" x2="673" y2="246" marker-end="url(#arr2)"/>
+  <text class="h2" x="649" y="237" font-size="12" font-weight="700" text-anchor="middle">Cmd+V</text>
+
+  <rect class="box" x="678" y="216" width="174" height="60" rx="10"/>
+  <text class="mut" x="690" y="234" font-size="11.5" font-weight="600">Remote computer</text>
+  <rect class="field" x="688" y="242" width="154" height="24" rx="5"/>
+  <text class="txt" x="697" y="258.5" font-size="12">Hello from Wispr Flow</text>
+  <circle class="good" cx="852" cy="216" r="10"/>
+  <path class="icon" d="M847,216.5 L850.5,220 L857,212.5"/>
+
+  <text class="mut" x="440" y="350" font-size="12" text-anchor="middle">Acts only when TeamViewer is the front app. Real Cmd+V that you type is not changed.</text>
+</svg>
