@@ -81,7 +81,10 @@ If Swift is not on your Mac, the installer opens the Apple installer window. Whe
 
    Installed. One step is left: give WisprTeamViewerFix Accessibility access.
    ```
-5. The installer opens **System Settings → Privacy & Security → Accessibility**. macOS can also show a window that asks to let "WisprTeamViewerFix" control this computer. If you see that window, click **Open System Settings**.
+5. The installer opens **System Settings → Privacy & Security → Accessibility**. macOS can also show this window. If you see it, click **Open System Settings**.
+
+   <img src="docs/images/accessibility-prompt.png" alt="macOS window: WisprTeamViewerFix would like to control this computer using accessibility features. Buttons: Open System Settings and Deny." width="460">
+
 6. Turn on the switch next to **WisprTeamViewerFix**.
 
    <img src="docs/images/accessibility-switch.png" alt="The Accessibility page in System Settings. The switch next to WisprTeamViewerFix is marked with the label Turn this on." width="500">
