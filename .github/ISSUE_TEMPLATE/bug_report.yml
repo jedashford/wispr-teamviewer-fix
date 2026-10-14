@@ -1,0 +1,85 @@
+name: Bug Report
+description: Report a bug with wispr-teamviewer-fix.
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Describe the problem. Include what you expected and what you saw instead.
+    validations:
+      required: true
+
+  - type: input
+    id: macos-version
+    attributes:
+      label: macOS version
+      placeholder: "26.6"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: mac-type
+    attributes:
+      label: Mac type
+      options:
+        - Apple Silicon
+        - Intel
+    validations:
+      required: true
+
+  - type: input
+    id: teamviewer-version
+    attributes:
+      label: TeamViewer version
+      placeholder: "15.69.4"
+    validations:
+      required: true
+
+  - type: input
+    id: paste-app
+    attributes:
+      label: Paste app and version
+      placeholder: "Wispr Flow 1.6.1144"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: remote-os
+    attributes:
+      label: Remote computer OS
+      options:
+        - macOS
+        - Windows
+        - Linux
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: install-option
+    attributes:
+      label: Install option
+      options:
+        - ./install.sh
+        - ./install.sh --windows
+    validations:
+      required: true
+
+  - type: textarea
+    id: log-excerpt
+    attributes:
+      label: Log excerpt
+      description: >
+        Paste the last 20 lines of ~/Library/Logs/wispr-teamviewer-fix.log.
+        The log holds no typed text or clipboard contents.
+      render: text
+
+  - type: checkboxes
+    id: accessibility
+    attributes:
+      label: Accessibility
+      options:
+        - label: The Accessibility switch for WisprTeamViewerFix is on.
+          required: true
