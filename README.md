@@ -98,9 +98,13 @@ The helper detects the access in approximately 2 seconds. You do not have to res
 6. Click **Open**.
 7. Turn on the switch next to **WisprTeamViewerFix**.
 
-#### "Background Items Added" notice
+#### "App Background Activity" notice
 
-macOS can also show a "Background Items Added" notice. This notice is about the login service of the helper. If you turn off the helper under **System Settings → General → Login Items & Extensions** (**Allow in the Background**), the helper does not start when you log in.
+macOS shows this notice after the install. It is about the login service of the helper. You do not have to do anything.
+
+<img src="docs/images/background-activity.png" alt="macOS notice: App Background Activity. wispr-teamviewer-fix can run in the background. You can manage background activity in Login Items and Extensions." width="420">
+
+If you turn off **wispr-teamviewer-fix** under **System Settings → General → Login Items & Extensions** (**Allow in the Background**), the helper does not start when you log in.
 
 ### What the installer does
 
