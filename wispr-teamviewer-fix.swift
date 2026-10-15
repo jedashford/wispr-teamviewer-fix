@@ -30,6 +30,11 @@ var swallowKeyUp = false
 let replayQueue = DispatchQueue(label: "replay")  // serial: two quick pastes never mix
 var tap: CFMachPort?
 
+// Same format as `log show`, so a line here matches TeamViewer's lines in the macOS log.
+let clock = DateFormatter()
+clock.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+func log(_ line: String) { print("\(clock.string(from: Date())) \(line)") }
+
 // A V keyDown that claims Cmd while the physical Cmd key is up came from software.
 func isSyntheticPaste(
   _ type: CGEventType, key: Int64, flags: CGEventFlags, physical: CGEventFlags, inTeamViewer: Bool
@@ -73,7 +78,7 @@ func replayPaste() {
   post(CGKeyCode(vKey), down: true, flags: modFlag)
   post(CGKeyCode(vKey), down: false, flags: modFlag)
   post(modKey, down: false, flags: [], modifier: true)
-  print("replayed paste with \(keyName)")
+  log("replayed paste with \(keyName)")
 }
 
 let callback: CGEventTapCallBack = { _, type, event, _ in
@@ -95,7 +100,7 @@ let callback: CGEventTapCallBack = { _, type, event, _ in
 
   let physical = CGEventSource.flagsState(.hidSystemState)
   let pid = event.getIntegerValueField(.eventSourceUnixProcessID)
-  print("cmd+v in TeamViewer: source pid=\(pid) physicalCmd=\(physical.contains(.maskCommand))")
+  log("cmd+v in TeamViewer: source pid=\(pid) physicalCmd=\(physical.contains(.maskCommand))")
   if isSyntheticPaste(type, key: key, flags: event.flags, physical: physical, inTeamViewer: true) {
     swallowKeyUp = true
     replayQueue.async(execute: replayPaste)
@@ -116,17 +121,17 @@ tap = makeTap()
 if tap == nil {
   // Show the macOS permission window and add the app to the Accessibility list.
   _ = AXIsProcessTrustedWithOptions(["AXTrustedCheckOptionPrompt": true] as CFDictionary)
-  print("Waiting for Accessibility access...")
+  log("Waiting for Accessibility access...")
   // AXIsProcessTrusted() can stay false in a running process after the user turns access on.
   // Creating the tap is checked again by macOS on each call, so retry that instead.
   while tap == nil {
     sleep(2)
     tap = makeTap()
   }
-  print("Accessibility access granted")
+  log("Accessibility access granted")
 }
 guard let tap else { exit(1) }
 CFRunLoopAddSource(CFRunLoopGetCurrent(), CFMachPortCreateRunLoopSource(nil, tap, 0), .commonModes)
 CGEvent.tapEnable(tap: tap, enable: true)
-print("wispr-teamviewer-fix \(version) running (remote pastes with \(keyName))")
+log("wispr-teamviewer-fix \(version) running (remote pastes with \(keyName))")
 CFRunLoopRun()

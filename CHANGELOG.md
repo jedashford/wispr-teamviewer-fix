@@ -6,6 +6,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Thi
 
 ## [Unreleased]
 
+### Added
+
+- Each log line starts with the date and time, in the same format as `log show`. Thus you can compare the helper log with the TeamViewer log.
+- README: steps for a paste that does not appear or shows old text. Wispr Flow puts the old clipboard back 0.5 seconds after the first read. Thus Cmd+V after a missed paste pastes the old text.
+
 ## [1.0.0] - 2026-10-13
 
 ### Added
