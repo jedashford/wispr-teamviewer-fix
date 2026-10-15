@@ -175,6 +175,8 @@ tail -f ~/Library/Logs/wispr-teamviewer-fix.log
 
 Press Ctrl+C to stop the command.
 
+Each line starts with the date and time, for example `2026-10-14 21:13:42.891`. The format is the same as in the macOS `log show` command. Thus you can compare a line with the TeamViewer log. Refer to [The paste is empty, shows old clipboard text, or does not appear](#the-paste-is-empty-shows-old-clipboard-text-or-does-not-appear).
+
 | Line                                                          | Description                                                                                                                                                            |
 | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `wispr-teamviewer-fix 1.0.0 running (remote pastes with cmd)` | The helper started. With `--windows`, the line shows `ctrl`, not `cmd`.                                                                                                |
@@ -213,10 +215,25 @@ The log contains only Cmd+V events in TeamViewer. It never contains other key pr
    ```
 5. Give Accessibility access again. Do steps 5 and 6 of [Install](#steps).
 
-### The paste is empty or shows old clipboard text
+### The paste is empty, shows old clipboard text, or does not appear
 
-1. In the TeamViewer options, turn on clipboard synchronization.
-2. If the problem continues, increase `--wait`. Refer to [Delay flags](#delay-flags).
+Wispr Flow puts your old clipboard back 0.5 seconds after an app reads the new text. TeamViewer must send the new text to the remote computer before that time. If TeamViewer is slow, the remote computer pastes old text or nothing. The helper log still shows `replayed paste`. This occurs most often on the first paste after you connect, and when the connection is slow.
+
+1. In the TeamViewer options, make sure that clipboard synchronization is on.
+2. To paste the text again, use the Wispr Flow shortcut **Paste last transcript**. Do not press Cmd+V. The clipboard has your old text again, so Cmd+V pastes the old text.
+3. To find the cause, get the time of the paste from the [log file](#log-file). Then show the TeamViewer log for that time.
+
+   ```bash
+   /usr/bin/log show --last 15m --style compact --predicate 'subsystem == "com.teamviewer.TeamViewer"' | grep -E "StreamType_Clipboard|UnicodeKeyMap: instance|Lost Heartbeat"
+   ```
+
+   | Line in the TeamViewer log        | Meaning                                                                                                               |
+   | --------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+   | `StreamType_Clipboard`            | TeamViewer sent the clipboard to the remote computer. Look for one line less than 0.5 seconds after `replayed paste`. |
+   | `UnicodeKeyMap: instance created` | TeamViewer prepared the keyboard for a new session. The first paste after you connect can fail.                       |
+   | `Lost Heartbeat`                  | The connection was slow or broken.                                                                                    |
+
+4. If the problem continues, increase `--wait`, for example to 800. Refer to [Delay flags](#delay-flags). Keep the value below 1000. With a longer wait, Wispr Flow can put the old clipboard back before the replay.
 
 ### Nothing appears on a remote Windows computer
 
