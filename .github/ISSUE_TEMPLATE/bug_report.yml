@@ -4,6 +4,17 @@ title: "[Bug] "
 labels: [bug]
 body:
   - type: textarea
+    id: doctor-output
+    attributes:
+      label: Output of ./doctor.sh
+      description: >
+        Run ./doctor.sh in the cloned folder and paste the output.
+        It contains no typed text and no clipboard contents.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
     id: what-happened
     attributes:
       label: What happened

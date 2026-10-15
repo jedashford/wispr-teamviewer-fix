@@ -1,0 +1,86 @@
+name: Compatibility Report
+description: Report whether the fix works on a setup that is not tested yet.
+title: "[Compat] "
+labels: [compatibility]
+body:
+  - type: dropdown
+    id: result
+    attributes:
+      label: Result
+      options:
+        - Works
+        - Does not work
+        - Works partly
+    validations:
+      required: true
+
+  - type: input
+    id: macos-version
+    attributes:
+      label: macOS version
+      placeholder: "26.6"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: mac-type
+    attributes:
+      label: Mac type
+      options:
+        - Apple Silicon
+        - Intel
+    validations:
+      required: true
+
+  - type: input
+    id: teamviewer-version
+    attributes:
+      label: TeamViewer version
+      placeholder: "15.69.4"
+    validations:
+      required: true
+
+  - type: input
+    id: paste-app
+    attributes:
+      label: Paste app and version
+      placeholder: "Wispr Flow 1.6.1144"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: remote-os
+    attributes:
+      label: Remote computer OS
+      options:
+        - macOS
+        - Windows
+        - Linux
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: install-option
+    attributes:
+      label: Install option
+      options:
+        - ./install.sh
+        - ./install.sh --windows
+    validations:
+      required: true
+
+  - type: textarea
+    id: doctor-output
+    attributes:
+      label: Output of ./doctor.sh
+      description: >
+        Run ./doctor.sh in the cloned folder and paste the output.
+        It contains no typed text and no clipboard contents.
+      render: text
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Any extra detail about the setup or behavior.

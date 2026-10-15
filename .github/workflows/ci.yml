@@ -21,12 +21,46 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: swift --version
-      - run: xcrun swiftc -O wispr-teamviewer-fix.swift -o wispr-teamviewer-fix
+      - name: Compile for arm64
+        run: >
+          xcrun swiftc -O
+          -target arm64-apple-macos13
+          wispr-teamviewer-fix.swift
+          -o wispr-teamviewer-fix-arm64
+      - name: Compile for x86_64
+        run: >
+          xcrun swiftc -O
+          -target x86_64-apple-macos13
+          wispr-teamviewer-fix.swift
+          -o wispr-teamviewer-fix-x86_64
+      - name: Create universal binary
+        run: >
+          lipo -create
+          wispr-teamviewer-fix-arm64
+          wispr-teamviewer-fix-x86_64
+          -output wispr-teamviewer-fix
+      - name: Verify architectures
+        run: |
+          archs=$(lipo -archs wispr-teamviewer-fix)
+          echo "Architectures: $archs"
+          echo "$archs" | grep -q arm64
+          echo "$archs" | grep -q x86_64
       - run: ./wispr-teamviewer-fix --selftest
       - run: ./wispr-teamviewer-fix --version
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wispr-teamviewer-fix-${{ matrix.os }}
+          path: wispr-teamviewer-fix
+          retention-days: 7
 
   shellcheck:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: shellcheck install.sh uninstall.sh
+      - run: shellcheck --severity=info install.sh uninstall.sh doctor.sh lib/ui.sh
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npx --yes prettier@3 --check "**/*.{md,yml}"

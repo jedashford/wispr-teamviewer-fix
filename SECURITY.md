@@ -28,6 +28,7 @@ The maintainer will reply within 7 days.
 - **User:** The helper runs as the logged-in user, not as root.
 - **Login service:** `~/Library/LaunchAgents/io.github.jedashford.wispr-teamviewer-fix.plist` starts the helper when you log in.
 - **Signature:** The app at `~/Applications/WisprTeamViewerFix.app` has an ad hoc signature.
+- **Doctor:** `doctor.sh` only reads. It changes no files, settings, or services. Its output contains no typed text and no clipboard contents. It shows versions, service state, and the last 5 lines of the log.
 
 To remove the helper, run the uninstall script.
 

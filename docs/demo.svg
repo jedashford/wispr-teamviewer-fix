@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="520" viewBox="0 0 880 520" role="img" aria-labelledby="title desc" xml:space="preserve">
+<title id="title">./install.sh: Wispr TeamViewer Fix installs in one command</title>
+<desc id="desc">~/wispr-teamviewer-fix $ ./install.sh
+
+  ╦ ╦╦╔═╗╔═╗╦═╗  ╔╦╗╔═╗╔═╗╔╦╗╦  ╦╦╔═╗╦ ╦╔═╗╦═╗  ╔═╗╦═╗ ╦
+  ║║║║╚═╗╠═╝╠╦╝   ║ ║╣ ╠═╣║║║╚╗╔╝║║╣ ║║║║╣ ╠╦╝  ╠╣ ║╔╩╦╝
+  ╚╩╝╩╚═╝╩  ╩╚═   ╩ ╚═╝╩ ╩╩ ╩ ╚╝ ╩╚═╝╚╩╝╚═╝╩╚═  ╚  ╩╩ ╚═
+  paste fix for Wispr Flow in TeamViewer · v1.0.0
+
+  ✓ macOS 26.6 on arm64
+  ✓ Swift 6.3.3
+  ✓ Built helper (2.1s)
+  ✓ Self-check passed
+  ✓ Installed ~/Applications/WisprTeamViewerFix.app
+  ✓ Login service started (remote pastes with Cmd+V)
+
+  ✓ Running. It starts each time you log in.
+
+  remote&gt; v  (the v is deleted, then:)
+  remote&gt; Hello from Wispr Flow. Every word arrives.
+
+  Log: ~/Library/Logs/wispr-teamviewer-fix.log</desc>
+<style>
+text{font:16px "SF Mono",ui-monospace,Menlo,Monaco,Consolas,monospace;fill:#d6dae3;white-space:pre}
+.p{fill:#7aa2f7}.d{fill:#7d8590}.g{fill:#56d364}.r{fill:#ff6b6b}
+.c{fill:#4fd6e8;font-weight:700}.bg{fill:#0d1117}.cur{fill:#d6dae3}
+.t{font:13px -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;fill:#8b949e}
+.s{opacity:0;animation:sp .8s step-end infinite}
+@keyframes k1{0%{transform:translate(284.0px,0)} 4.29%{transform:translate(284.0px,0);animation-timing-function:steps(12,end)} 11.14%{transform:translate(399.2px,0)}}
+.k1{animation:k1 14s linear infinite}
+@keyframes k2{0%{opacity:0} 0%{opacity:1} 13.57%{opacity:0}}
+.k2{animation:k2 14s step-end infinite}
+@keyframes k3{0%{opacity:0} 15%{opacity:1}}
+.k3{animation:k3 14s step-end infinite}
+@keyframes k4{0%{opacity:0} 15.36%{opacity:1}}
+.k4{animation:k4 14s step-end infinite}
+@keyframes k5{0%{opacity:0} 15.71%{opacity:1}}
+.k5{animation:k5 14s step-end infinite}
+@keyframes k6{0%{opacity:0} 16.07%{opacity:1}}
+.k6{animation:k6 14s step-end infinite}
+@keyframes k7{0%{opacity:0} 19.29%{opacity:1}}
+.k7{animation:k7 14s step-end infinite}
+@keyframes k8{0%{opacity:0} 21.79%{opacity:1}}
+.k8{animation:k8 14s step-end infinite}
+@keyframes sp{0%{opacity:1}10%{opacity:0}100%{opacity:0}}
+@keyframes k9{0%{opacity:0} 24.29%{opacity:1} 35.71%{opacity:0}}
+.k9{animation:k9 14s step-end infinite}
+@keyframes k10{0%{opacity:0} 35.71%{opacity:1}}
+.k10{animation:k10 14s step-end infinite}
+@keyframes k11{0%{opacity:0} 38.93%{opacity:1}}
+.k11{animation:k11 14s step-end infinite}
+@keyframes k12{0%{opacity:0} 41.79%{opacity:1}}
+.k12{animation:k12 14s step-end infinite}
+@keyframes k13{0%{opacity:0} 45%{opacity:1}}
+.k13{animation:k13 14s step-end infinite}
+@keyframes k14{0%{opacity:0} 52.14%{opacity:1}}
+.k14{animation:k14 14s step-end infinite}
+@keyframes k15{0%{opacity:0} 55.71%{opacity:1}}
+.k15{animation:k15 14s step-end infinite}
+@keyframes k16{0%{opacity:0} 55.71%{opacity:1} 61.43%{opacity:0}}
+.k16{animation:k16 14s step-end infinite}
+@keyframes k17{0%{opacity:0} 61.43%{opacity:1}}
+.k17{animation:k17 14s step-end infinite}
+@keyframes k18{0%{transform:translate(149.6px,0)} 61.43%{transform:translate(140.0px,0)} 63.21%{transform:translate(140.0px,0);animation-timing-function:steps(42,end)} 78.21%{transform:translate(543.2px,0);animation-timing-function:step-end}}
+.k18{animation:k18 14s step-end infinite}
+@keyframes k19{0%{opacity:0} 55.71%{opacity:1} 81.79%{opacity:0} 85.36%{opacity:1} 88.93%{opacity:0} 92.5%{opacity:1} 96.07%{opacity:0}}
+.k19{animation:k19 14s step-end infinite}
+@keyframes k20{0%{opacity:0} 80.71%{opacity:1}}
+.k20{animation:k20 14s step-end infinite}
+@keyframes k21{0%{opacity:1} 95%{opacity:1} 98.57%{opacity:0}}
+.k21{animation:k21 14s linear infinite}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+<defs><clipPath id="w"><rect x="20" y="14" width="840" height="492" rx="10"/></clipPath>
+<filter id="sh" x="-5%" y="-5%" width="110%" height="115%"><feDropShadow dx="0" dy="4" stdDeviation="5" flood-opacity=".35"/></filter></defs>
+<rect x="20" y="14" width="840" height="492" rx="10" fill="#0d1117" stroke="#30363d" filter="url(#sh)"/>
+<g clip-path="url(#w)">
+<rect x="20" y="14" width="840" height="34" fill="#161b22"/>
+<rect x="20" y="48" width="840" height="1" fill="#30363d"/>
+<circle cx="40" cy="31" r="6" fill="#ff5f57"/><circle cx="60" cy="31" r="6" fill="#febc2e"/><circle cx="80" cy="31" r="6" fill="#28c840"/>
+<text class="t" x="440" y="36" text-anchor="middle">zsh — wispr-teamviewer-fix</text>
+<g class="k21">
+<text y="81"><tspan class="p" x="44 53.6 63.2 72.8 82.4 92 101.6 111.2 120.8 130.4 140 149.6 159.2 168.8 178.4 188 197.6 207.2 216.8 226.4 236 245.6 255.2">~/wispr-teamviewer-fix </tspan><tspan class="d" x="264.8">$</tspan><tspan x="284 293.6 303.2 312.8 322.4 332 341.6 351.2 360.8 370.4 380 389.6">./install.sh</tspan></text>
+<g class="k1" style="transform:translate(399.2px,0)"><rect class="bg" x="0" y="65" width="840" height="22"/><rect class="cur k2" x="0" y="66" width="9.6" height="20" opacity="0"/></g>
+<text y="128.5" class="k3"><tspan class="c" x="63.2 72.8 82.4 92 101.6 111.2 120.8 130.4 140 149.6 159.2 168.8 178.4 188 197.6 207.2 216.8 226.4 236 245.6 255.2 264.8 274.4 284 293.6 303.2 312.8 322.4 332 341.6 351.2 360.8 370.4 380 389.6 399.2 408.8 418.4 428 437.6 447.2 456.8 466.4 476 485.6 495.2 504.8 514.4 524 533.6 543.2 552.8 562.4 572">╦ ╦╦╔═╗╔═╗╦═╗  ╔╦╗╔═╗╔═╗╔╦╗╦  ╦╦╔═╗╦ ╦╔═╗╦═╗  ╔═╗╦═╗ ╦</tspan></text>
+<text y="147" class="k4"><tspan class="c" x="63.2 72.8 82.4 92 101.6 111.2 120.8 130.4 140 149.6 159.2 168.8 178.4 188 197.6 207.2 216.8 226.4 236 245.6 255.2 264.8 274.4 284 293.6 303.2 312.8 322.4 332 341.6 351.2 360.8 370.4 380 389.6 399.2 408.8 418.4 428 437.6 447.2 456.8 466.4 476 485.6 495.2 504.8 514.4 524 533.6 543.2 552.8 562.4 572">║║║║╚═╗╠═╝╠╦╝   ║ ║╣ ╠═╣║║║╚╗╔╝║║╣ ║║║║╣ ╠╦╝  ╠╣ ║╔╩╦╝</tspan></text>
+<text y="165.5" class="k5"><tspan class="c" x="63.2 72.8 82.4 92 101.6 111.2 120.8 130.4 140 149.6 159.2 168.8 178.4 188 197.6 207.2 216.8 226.4 236 245.6 255.2 264.8 274.4 284 293.6 303.2 312.8 322.4 332 341.6 351.2 360.8 370.4 380 389.6 399.2 408.8 418.4 428 437.6 447.2 456.8 466.4 476 485.6 495.2 504.8 514.4 524 533.6 543.2 552.8 562.4 572">╚╩╝╩╚═╝╩  ╩╚═   ╩ ╚═╝╩ ╩╩ ╩ ╚╝ ╩╚═╝╚╩╝╚═╝╩╚═  ╚  ╩╩ ╚═</tspan></text>
+<text y="191" class="k6"><tspan class="d" x="63.2 72.8 82.4 92 101.6 111.2 120.8 130.4 140 149.6 159.2 168.8 178.4 188 197.6 207.2 216.8 226.4 236 245.6 255.2 264.8 274.4 284 293.6 303.2 312.8 322.4 332 341.6 351.2 360.8 370.4 380 389.6 399.2 408.8 418.4 428 437.6 447.2 456.8 466.4 476 485.6 495.2 504.8">paste fix for Wispr Flow in TeamViewer · v1.0.0</tspan></text>
+<text y="235" class="k7"><tspan class="g" x="63.2">✓</tspan><tspan x="82.4 92 101.6 111.2 120.8 130.4 140 149.6 159.2 168.8 178.4 188 197.6 207.2 216.8 226.4 236 245.6 255.2">macOS 26.6 on arm64</tspan></text>
+<text y="257" class="k8"><tspan class="g" x="63.2">✓</tspan><tspan x="82.4 92 101.6 111.2 120.8 130.4 140 149.6 159.2 168.8 178.4">Swift 6.3.3</tspan></text>
+<g class="k9" opacity="0"><text class="c s" x="63.2" y="279" style="animation-delay:-0.80s">⠋</text><text class="c s" x="63.2" y="279" style="animation-delay:-0.72s">⠙</text><text class="c s" x="63.2" y="279" style="animation-delay:-0.64s">⠹</text><text class="c s" x="63.2" y="279" style="animation-delay:-0.56s">⠸</text><text class="c s" x="63.2" y="279" style="animation-delay:-0.48s">⠼</text><text class="c s" x="63.2" y="279" style="animation-delay:-0.40s">⠴</text><text class="c s" x="63.2" y="279" style="animation-delay:-0.32s">⠦</text><text class="c s" x="63.2" y="279" style="animation-delay:-0.24s">⠧</text><text class="c s" x="63.2" y="279" style="animation-delay:-0.16s">⠇</text><text class="c s" x="63.2" y="279" style="animation-delay:-0.08s">⠏</text><text y="279"><tspan x="82.4 92 101.6 111.2 120.8 130.4 140 149.6 159.2 168.8 178.4 188 197.6 207.2 216.8">Building helper</tspan></text></g>
+<text y="279" class="k10"><tspan class="g" x="63.2">✓</tspan><tspan x="82.4 92 101.6 111.2 120.8 130.4 140 149.6 159.2 168.8 178.4 188 197.6 207.2 216.8 226.4 236 245.6 255.2">Built helper (2.1s)</tspan></text>
+<text y="301" class="k11"><tspan class="g" x="63.2">✓</tspan><tspan x="82.4 92 101.6 111.2 120.8 130.4 140 149.6 159.2 168.8 178.4 188 197.6 207.2 216.8 226.4 236">Self-check passed</tspan></text>
+<text y="323" class="k12"><tspan class="g" x="63.2">✓</tspan><tspan x="82.4 92 101.6 111.2 120.8 130.4 140 149.6 159.2 168.8 178.4 188 197.6 207.2 216.8 226.4 236 245.6 255.2 264.8 274.4 284 293.6 303.2 312.8 322.4 332 341.6 351.2 360.8 370.4 380 389.6 399.2 408.8 418.4 428 437.6 447.2 456.8 466.4 476 485.6 495.2 504.8 514.4 524">Installed ~/Applications/WisprTeamViewerFix.app</tspan></text>
+<text y="345" class="k13"><tspan class="g" x="63.2">✓</tspan><tspan x="82.4 92 101.6 111.2 120.8 130.4 140 149.6 159.2 168.8 178.4 188 197.6 207.2 216.8 226.4 236 245.6 255.2 264.8 274.4 284 293.6 303.2 312.8 322.4 332 341.6 351.2 360.8 370.4 380 389.6 399.2 408.8 418.4 428 437.6 447.2 456.8 466.4 476 485.6 495.2 504.8 514.4 524 533.6">Login service started (remote pastes with Cmd+V)</tspan></text>
+<text y="389" class="k14"><tspan class="g" x="63.2">✓</tspan><tspan x="82.4 92 101.6 111.2 120.8 130.4 140 149.6 159.2 168.8 178.4 188 197.6 207.2 216.8 226.4 236 245.6 255.2 264.8 274.4 284 293.6 303.2 312.8 322.4 332 341.6 351.2 360.8 370.4 380 389.6 399.2 408.8 418.4 428 437.6 447.2 456.8">Running. It starts each time you log in.</tspan></text>
+<text y="433" class="k15"><tspan class="d" x="63.2 72.8 82.4 92 101.6 111.2 120.8">remote&gt;</tspan></text>
+<text y="433" class="k16" opacity="0"><tspan class="r" x="140">v</tspan></text>
+<text y="433" class="k17"><tspan class="g" x="140 149.6 159.2 168.8 178.4 188 197.6 207.2 216.8 226.4 236 245.6 255.2 264.8 274.4 284 293.6 303.2 312.8 322.4 332 341.6 351.2 360.8 370.4 380 389.6 399.2 408.8 418.4 428 437.6 447.2 456.8 466.4 476 485.6 495.2 504.8 514.4 524 533.6">Hello from Wispr Flow. Every word arrives.</tspan></text>
+<g class="k18" style="transform:translate(543.2px,0)"><rect class="bg" x="0" y="417" width="840" height="22"/><rect class="cur k19" x="0" y="418" width="9.6" height="20"/></g>
+<text y="477" class="k20"><tspan class="d" x="63.2 72.8 82.4 92 101.6 111.2 120.8 130.4 140 149.6 159.2 168.8 178.4 188 197.6 207.2 216.8 226.4 236 245.6 255.2 264.8 274.4 284 293.6 303.2 312.8 322.4 332 341.6 351.2 360.8 370.4 380 389.6 399.2 408.8 418.4 428 437.6 447.2 456.8 466.4 476">Log: ~/Library/Logs/wispr-teamviewer-fix.log</tspan></text>
+</g></g></svg>
