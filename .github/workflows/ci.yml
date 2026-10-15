@@ -47,7 +47,7 @@ jobs:
           echo "$archs" | grep -q x86_64
       - run: ./wispr-teamviewer-fix --selftest
       - run: ./wispr-teamviewer-fix --version
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: wispr-teamviewer-fix-${{ matrix.os }}
           path: wispr-teamviewer-fix
