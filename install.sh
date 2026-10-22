@@ -2,7 +2,7 @@
 # Build Wispr TeamViewer Fix, install it as a login service, and ask for Accessibility access.
 #   ./install.sh            the remote computer is a Mac (it pastes with Cmd+V)
 #   ./install.sh --windows  the remote computer runs Windows (it pastes with Ctrl+V)
-#   ./install.sh --chrome   also wait 150 ms before a synthetic Cmd+V in Chrome (experimental)
+#   ./install.sh --chrome   also type the text of a synthetic Cmd+V in Chrome instead of pasting it
 # The two options work together, in any order.
 set -euo pipefail
 
@@ -22,11 +22,11 @@ KEY=cmd PASTE="Cmd+V" CHROME_ARGS='' CHROME_NOTE=''
 for opt in "$@"; do
   case "$opt" in
     --windows) KEY=ctrl PASTE="Ctrl+V" ;;
-    --chrome) CHROME_ARGS="<string>--chrome-delay</string><string>150</string>" CHROME_NOTE=", Chrome paste delay 150 ms" ;;
+    --chrome) CHROME_ARGS="<string>--chrome-type</string>" CHROME_NOTE=", Chrome typing mode on" ;;
     *)
       echo "Usage: ./install.sh [--windows] [--chrome]" >&2
       echo "  --windows  the remote computer runs Windows (it pastes with Ctrl+V)" >&2
-      echo "  --chrome   wait 150 ms before a synthetic Cmd+V in Chrome (experimental)" >&2
+      echo "  --chrome   type the text of a synthetic Cmd+V in Chrome instead of pasting it" >&2
       exit 1
       ;;
   esac

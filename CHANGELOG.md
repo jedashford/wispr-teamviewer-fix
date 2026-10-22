@@ -9,9 +9,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Thi
 ### Added
 
 - Each log line starts with the date and time, in the same format as `log show`. Thus you can compare the helper log with the TeamViewer log.
-- Experimental Chrome mode: `--chrome-delay ms` for the helper and `--chrome` for `install.sh`. Chrome 155 and Chrome 156 on macOS sometimes ignore a paste that comes immediately after a clipboard write. With the mode on, the helper drops a synthetic Cmd+V in Chrome, waits 150 ms, and then sends Command down, V down, V up, Command up. The mode is off by default. TeamViewer behavior does not change. `./doctor.sh` shows the `Chrome paste delay` line. The self-check has new cases for the target app.
+- Experimental Chrome typing mode: `--chrome-type` for the helper and `--chrome` for `install.sh`. Chrome 155 and Chrome 156 on macOS cancel a paste that comes immediately after another app writes the clipboard. With the mode on, a software Cmd+V in Chrome does not paste. The helper reads the plain clipboard text and types it into Chrome with keyboard events. A line break becomes Shift+Return. If the clipboard has no text, the Cmd+V passes through unchanged. A Cmd+V that you type does not change. The mode is off by default. TeamViewer behavior does not change. `./doctor.sh` shows the `Chrome typing mode` line.
 - `install.sh` accepts `--windows` and `--chrome` together, in any order.
 - README: steps for a paste that does not appear or shows old text. Wispr Flow puts the old clipboard back 0.5 seconds after the first read. Thus Cmd+V after a missed paste pastes the old text.
+
+### Removed
+
+- The Chrome delay mode (`--chrome-delay ms`). It was never released. It waited 150 ms before a replayed Cmd+V in Chrome. On the maintainer's Mac, it made missed pastes worse: 6 of 14 dictations failed. The Chrome typing mode replaces it.
 
 ## [1.0.0] - 2026-10-13
 
