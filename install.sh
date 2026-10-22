@@ -2,6 +2,8 @@
 # Build Wispr TeamViewer Fix, install it as a login service, and ask for Accessibility access.
 #   ./install.sh            the remote computer is a Mac (it pastes with Cmd+V)
 #   ./install.sh --windows  the remote computer runs Windows (it pastes with Ctrl+V)
+#   ./install.sh --chrome   also wait 150 ms before a synthetic Cmd+V in Chrome (experimental)
+# The two options work together, in any order.
 set -euo pipefail
 
 # shellcheck source=lib/ui.sh
@@ -16,15 +18,19 @@ LOG="$HOME/Library/Logs/$EXE.log"
 DOMAIN="gui/$(id -u)"
 LSREGISTER="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister"
 
-case "${1:-}" in
-  "") KEY=cmd PASTE="Cmd+V" ;;
-  --windows) KEY=ctrl PASTE="Ctrl+V" ;;
-  *)
-    echo "Usage: ./install.sh [--windows]" >&2
-    echo "  --windows  the remote computer runs Windows (it pastes with Ctrl+V)" >&2
-    exit 1
-    ;;
-esac
+KEY=cmd PASTE="Cmd+V" CHROME_ARGS='' CHROME_NOTE=''
+for opt in "$@"; do
+  case "$opt" in
+    --windows) KEY=ctrl PASTE="Ctrl+V" ;;
+    --chrome) CHROME_ARGS="<string>--chrome-delay</string><string>150</string>" CHROME_NOTE=", Chrome paste delay 150 ms" ;;
+    *)
+      echo "Usage: ./install.sh [--windows] [--chrome]" >&2
+      echo "  --windows  the remote computer runs Windows (it pastes with Ctrl+V)" >&2
+      echo "  --chrome   wait 150 ms before a synthetic Cmd+V in Chrome (experimental)" >&2
+      exit 1
+      ;;
+  esac
+done
 
 # The logo shows the version of the source that this script builds.
 ui_logo "v$(sed -n 's/^let version = "\(.*\)"$/\1/p' "$(dirname "$0")/$EXE.swift")"
@@ -96,7 +102,7 @@ cat >"$PLIST" <<EOF
   <key>ProgramArguments</key>
   <array>
     <string>$APP/Contents/MacOS/$EXE</string>
-    <string>--key</string><string>$KEY</string>
+    <string>--key</string><string>$KEY</string>$CHROME_ARGS
   </array>
   <key>RunAtLoad</key><true/>
   <key>KeepAlive</key><true/>
@@ -112,7 +118,7 @@ launchctl bootstrap "$DOMAIN" "$PLIST" || {
   ui_fail "Could not start the login service. Run ./doctor.sh to see why."
   exit 1
 }
-ui_ok "Login service started (remote pastes with $PASTE)"
+ui_ok "Login service started (remote pastes with $PASTE$CHROME_NOTE)"
 sleep 2
 
 echo

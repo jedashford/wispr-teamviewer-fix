@@ -16,22 +16,22 @@ A macOS helper that fixes Wispr Flow when it types only "v" in a TeamViewer wind
 **Contents**
 
 - **Start:** [At a glance](#at-a-glance) · [See it run](#see-it-run) · [The problem](#the-problem) · [Why it happens](#why-it-happens)
-- **Use:** [Install](#install) · [Test it](#test-it) · [Check your setup](#check-your-setup) · [Remote computer runs Windows](#remote-computer-runs-windows) · [Update](#update) · [Uninstall](#uninstall)
+- **Use:** [Install](#install) · [Test it](#test-it) · [Check your setup](#check-your-setup) · [Remote computer runs Windows](#remote-computer-runs-windows) · [Experimental: missed pastes in Chrome](#experimental-missed-pastes-in-chrome) · [Update](#update) · [Uninstall](#uninstall)
 - **Reference:** [Terminal options](#terminal-options) · [Log file](#log-file) · [Problems and solutions](#problems-and-solutions) · [How it works](#how-it-works)
 - **Project:** [Support](#support) · [Contributing](#contributing) · [License](#license)
 
 ## At a glance
 
-|                     |                                                                                                                                     |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| **What it does**    | It makes Wispr Flow paste the full text into a TeamViewer window. Without the helper, the remote computer gets only the letter "v". |
-| **When it runs**    | It starts when you log in. Then it runs in the background all the time. It does not wait for TeamViewer to start.                   |
-| **What it changes** | It ignores every key except V. It changes an event only when TeamViewer is the front app. In all other apps, it does nothing.       |
-| **Idle cost**       | No measurable CPU. Memory: about 3 MB.                                                                                              |
-| **Paste apps**      | Wispr Flow: tested. TextExpander, Keyboard Maestro, Text Blaze and other apps that paste with a synthetic Cmd+V: not tested yet.    |
-| **Permissions**     | Accessibility only. No network access. It never reads the clipboard.                                                                |
-| **Health check**    | `./doctor.sh` checks the install and prints a report. It only reads.                                                                |
-| **Version**         | 1.0.0                                                                                                                               |
+|                     |                                                                                                                                                                                                            |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **What it does**    | It makes Wispr Flow paste the full text into a TeamViewer window. Without the helper, the remote computer gets only the letter "v".                                                                        |
+| **When it runs**    | It starts when you log in. Then it runs in the background all the time. It does not wait for TeamViewer to start.                                                                                          |
+| **What it changes** | It ignores every key except V. It changes an event only when TeamViewer is the front app. With the opt-in `--chrome` mode, it also delays a synthetic Cmd+V in Chrome. In all other apps, it does nothing. |
+| **Idle cost**       | No measurable CPU. Memory: about 3 MB.                                                                                                                                                                     |
+| **Paste apps**      | Wispr Flow: tested. TextExpander, Keyboard Maestro, Text Blaze and other apps that paste with a synthetic Cmd+V: not tested yet.                                                                           |
+| **Permissions**     | Accessibility only. No network access. It never reads the clipboard.                                                                                                                                       |
+| **Health check**    | `./doctor.sh` checks the install and prints a report. It only reads.                                                                                                                                       |
+| **Version**         | 1.0.0                                                                                                                                                                                                      |
 
 ### Supported versions
 
@@ -156,6 +156,16 @@ macOS shows this notice after the install. It is about the login service of the 
 
 If you turn off **wispr-teamviewer-fix** under **System Settings → General → Login Items & Extensions** (**Allow in the Background**), the helper does not start when you log in.
 
+### Installer options
+
+| Option      | Effect                                                                                                                                                             |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| (none)      | The remote computer is a Mac. The helper replays the paste with Command.                                                                                           |
+| `--windows` | The remote computer runs Windows. Refer to [Remote computer runs Windows](#remote-computer-runs-windows).                                                          |
+| `--chrome`  | Experimental. The helper waits 150 ms before a synthetic Cmd+V in Chrome. Refer to [Experimental: missed pastes in Chrome](#experimental-missed-pastes-in-chrome). |
+
+You can use the two options together, in any order. Example: `./install.sh --windows --chrome`. Each run of the installer writes a new login service file. An option that you do not give is off.
+
 ### What the installer does
 
 1. It builds `wispr-teamviewer-fix.swift` from source in a temporary folder.
@@ -201,6 +211,7 @@ You can also run `make doctor`. On a healthy Mac, the output is similar to this:
   ✓ Login service loaded, running (pid 1788)
   ✓ Accessibility access: on
   ✓ Remote paste key: cmd
+  · Chrome paste delay: off
   Recent log
   · wispr-teamviewer-fix 1.0.0 running (remote pastes with cmd)
   · cmd+v in TeamViewer: source pid=95042 physicalCmd=false
@@ -209,12 +220,12 @@ You can also run `make doctor`. On a healthy Mac, the output is similar to this:
   All checks passed. Paste this output into a bug report if you need help.
 ```
 
-| Mark | Meaning                                                                                            |
-| ---- | -------------------------------------------------------------------------------------------------- |
-| `✓`  | The check passed.                                                                                  |
-| `!`  | Warning. The doctor did not find an item, but the helper can work. This is not a failure.          |
-| `✗`  | The check failed. The line tells you what to do.                                                   |
-| `·`  | A line from the log file. **Recent log** shows the last 5 lines, or `(empty)` if the log is empty. |
+| Mark | Meaning                                                                                                                                                                        |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `✓`  | The check passed.                                                                                                                                                              |
+| `!`  | Warning. The doctor did not find an item, but the helper can work. This is not a failure.                                                                                      |
+| `✗`  | The check failed. The line tells you what to do.                                                                                                                               |
+| `·`  | Information, for example `· Chrome paste delay: off`. Under **Recent log**, a line from the log file. **Recent log** shows the last 5 lines, or `(empty)` if the log is empty. |
 
 | Exit code | Meaning                                                                                |
 | --------- | -------------------------------------------------------------------------------------- |
@@ -247,6 +258,43 @@ With `--windows`, the helper sends Control in the replay, not Command. The insta
 
 This option has no tests yet. Send your results with the [compatibility report form](https://github.com/jedashford/wispr-teamviewer-fix/issues/new?template=compatibility_report.yml).
 
+## Experimental: missed pastes in Chrome
+
+Chrome 155 and Chrome 156 on macOS sometimes ignore a paste from Wispr Flow. You dictate, but no text appears in Chrome. On the maintainer's Mac, approximately 11% of the dictations into Chrome did not appear after Chrome 155 became the stable version. Before that, no dictations were missing.
+
+### Cause
+
+Wispr Flow writes the text to the clipboard. Then it sends Cmd+V immediately.
+
+1. Chromium change [8217390](https://chromium-review.googlesource.com/c/chromium/src/+/8217390) makes Chrome check the clipboard during a paste. If the clipboard changes during the paste, Chrome does not paste the new text.
+2. On macOS, Chrome can find a clipboard change when no change occurred. This occurs most often when an app writes the clipboard and sends Cmd+V immediately after.
+3. Chromium change [8503629](https://chromium-review.googlesource.com/c/chromium/src/+/8503629) repairs this problem. Chrome 157 is the first version with this repair.
+
+Other dictation apps add a wait of approximately 150 ms before Cmd+V. Refer to [Hex issue 136](https://github.com/anomalyco/hex/issues/136) and [Hex pull request 137](https://github.com/anomalyco/hex/pull/137).
+
+### Turn on the Chrome mode
+
+1. Run the installer with `--chrome`. If the remote computer runs Windows, also add `--windows`.
+   ```bash
+   ./install.sh --chrome
+   ```
+2. Make sure that the installer shows `✓ Login service started (remote pastes with Cmd+V, Chrome paste delay 150 ms)`.
+3. Run `./doctor.sh`. Make sure that it shows `✓ Chrome paste delay: 150 ms`.
+
+With `--chrome`, the helper drops a synthetic Cmd+V in Chrome. It waits 150 ms. Then it sends the full key sequence: Command down, V down, V up, Command up. In Chrome, the helper always uses Command, also with `--windows`. If you press Cmd+V yourself, the helper does not change it. The Chrome mode does not change the behavior in TeamViewer.
+
+This mode is experimental. The maintainer measures the rate of missed pastes in Chrome with and without it. The result is not known yet. Send your results with the [compatibility report form](https://github.com/jedashford/wispr-teamviewer-fix/issues/new?template=compatibility_report.yml).
+
+### Turn off the Chrome mode
+
+Run the installer without `--chrome`. If the remote computer runs Windows, add `--windows`.
+
+```bash
+./install.sh
+```
+
+`./doctor.sh` then shows `· Chrome paste delay: off`. Chrome 157 and later do not need the Chrome mode.
+
 ## Update
 
 1. In Terminal, go to the `wispr-teamviewer-fix` folder.
@@ -254,7 +302,7 @@ This option has no tests yet. Send your results with the [compatibility report f
    ```bash
    git pull
    ```
-3. Run the installer again. If the remote computer runs Windows, add `--windows`.
+3. Run the installer again. If the remote computer runs Windows, add `--windows`. If you use the [Chrome mode](#experimental-missed-pastes-in-chrome), add `--chrome`.
    ```bash
    ./install.sh
    ```
@@ -302,13 +350,15 @@ Each line starts with the date and time, for example `2026-10-14 21:13:42.891`. 
 
 | Line                                                          | Description                                                                                                                                                            |
 | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `wispr-teamviewer-fix 1.0.0 running (remote pastes with cmd)` | The helper started. With `--windows`, the line shows `ctrl`, not `cmd`.                                                                                                |
+| `wispr-teamviewer-fix 1.0.0 running (remote pastes with cmd)` | The helper started. With `--windows`, the line shows `ctrl`, not `cmd`. With `--chrome`, the line ends with `, Chrome paste delay 150 ms`.                             |
 | `Waiting for Accessibility access...`                         | The helper does not have Accessibility access yet. Turn on the switch.                                                                                                 |
 | `Accessibility access granted`                                | The helper has Accessibility access now.                                                                                                                               |
 | `cmd+v in TeamViewer: source pid=95042 physicalCmd=false`     | The helper saw one Cmd+V in TeamViewer. `physicalCmd=false` means that you did not hold the Command key. If the value is `true`, the helper does not change the event. |
 | `replayed paste with cmd`                                     | The helper sent the full key sequence to TeamViewer. With `--windows`, the line shows `ctrl`.                                                                          |
+| `cmd+v in Chrome: source pid=95042 physicalCmd=false`         | Only with `--chrome`. The helper saw one Cmd+V in Chrome. `physicalCmd` has the same meaning as in TeamViewer.                                                         |
+| `replayed paste in Chrome after 150 ms`                       | Only with `--chrome`. The helper waited 150 ms, then sent the full key sequence with Command to Chrome.                                                                |
 
-The log contains only Cmd+V events in TeamViewer. It never contains other key presses or clipboard text.
+The log contains only Cmd+V events in TeamViewer, and in Chrome with `--chrome`. It never contains other key presses or clipboard text.
 
 ## Problems and solutions
 
@@ -379,7 +429,7 @@ Wispr Flow puts your old clipboard back 0.5 seconds after an app reads the new t
 
 The helper uses a keyboard event tap. It acts only when all of these conditions are true:
 
-- TeamViewer is the front app.
+- TeamViewer is the front app. With `--chrome`, Chrome also counts. Refer to [Experimental: missed pastes in Chrome](#experimental-missed-pastes-in-chrome).
 - A V key-down event has the Command flag.
 - You do not hold the physical Command key.
 
@@ -410,12 +460,13 @@ A Cmd+V that you type yourself (you hold the physical ⌘ key) passes through un
 
 ### Delay flags
 
-| Flag        | Default | Description                                                              |
-| ----------- | ------- | ------------------------------------------------------------------------ |
-| `--wait ms` | 150     | Time before the replay. TeamViewer uses this time to sync the clipboard. |
-| `--gap ms`  | 30      | Time between the events of the replay.                                   |
+| Flag                | Default | Description                                                                                                                     |
+| ------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `--wait ms`         | 150     | Time before the replay. TeamViewer uses this time to sync the clipboard.                                                        |
+| `--gap ms`          | 30      | Time between the events of the replay.                                                                                          |
+| `--chrome-delay ms` | 0 (off) | Time before the replay in Chrome. The value 0 turns off the Chrome mode. The maximum is 2000. `./install.sh --chrome` sets 150. |
 
-The installer does not set these flags. If pastes are empty or show old clipboard text on a slow connection, add `--wait`:
+The installer sets only `--chrome-delay`, and only with `--chrome`. If pastes are empty or show old clipboard text on a slow connection, add `--wait`:
 
 1. Open `~/Library/LaunchAgents/io.github.jedashford.wispr-teamviewer-fix.plist` in a text editor.
 2. In the `ProgramArguments` array, add two items after the last item.

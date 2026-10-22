@@ -74,9 +74,15 @@ case "$last" in
 esac
 
 if [ -f "$PLIST" ]; then
-  key=$(/usr/libexec/PlistBuddy -c "Print :ProgramArguments" "$PLIST" 2>/dev/null |
-    awk 'f { print $1; f = 0 } $1 == "--key" { f = 1 }') || key=''
+  args=$(/usr/libexec/PlistBuddy -c "Print :ProgramArguments" "$PLIST" 2>/dev/null) || args=''
+  key=$(awk 'f { print $1; f = 0 } $1 == "--key" { f = 1 }' <<<"$args")
   ui_ok "Remote paste key: ${key:-cmd}"
+  delay=$(awk 'f { print $1; f = 0 } $1 == "--chrome-delay" { f = 1 }' <<<"$args")
+  if [ "${delay:-0}" -gt 0 ] 2>/dev/null; then
+    ui_ok "Chrome paste delay: $delay ms"
+  else
+    ui_info "Chrome paste delay: off"
+  fi
 else
   problem "Service file missing: $(ui_path "$PLIST"). Run ./install.sh"
 fi
