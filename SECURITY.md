@@ -22,9 +22,9 @@ The maintainer will reply within 7 days.
 
 - **Permission:** Accessibility only. The helper needs it to read and post keyboard events.
 - **Network:** The helper contains no network code.
-- **Clipboard:** The helper never reads the clipboard contents.
-- **Log:** The helper writes to `~/Library/Logs/wispr-teamviewer-fix.log`. The log records only Cmd+V events that occur while TeamViewer is the front app.
-- **Log contents:** Each event line contains the source process ID and the state of the physical Command key. The log also records start and permission messages.
+- **Clipboard:** The helper reads the clipboard only in the opt-in Chrome typing mode (`--chrome`). Then it reads only the plain text, and only at the moment of a software Cmd+V while Chrome is the front app. It keeps the text in memory and types it into Chrome. It never logs, stores or sends the text. In all other cases, the helper does not read the clipboard.
+- **Log:** The helper writes to `~/Library/Logs/wispr-teamviewer-fix.log`. The log records only Cmd+V events that occur while TeamViewer is the front app. In Chrome typing mode, it also records Cmd+V events in Chrome.
+- **Log contents:** Each event line contains the source process ID and the state of the physical Command key. In Chrome typing mode, a line records the number of typed characters, never the text. The log also records start and permission messages.
 - **User:** The helper runs as the logged-in user, not as root.
 - **Login service:** `~/Library/LaunchAgents/io.github.jedashford.wispr-teamviewer-fix.plist` starts the helper when you log in.
 - **Signature:** The app at `~/Applications/WisprTeamViewerFix.app` has an ad hoc signature.

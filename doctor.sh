@@ -77,11 +77,10 @@ if [ -f "$PLIST" ]; then
   args=$(/usr/libexec/PlistBuddy -c "Print :ProgramArguments" "$PLIST" 2>/dev/null) || args=''
   key=$(awk 'f { print $1; f = 0 } $1 == "--key" { f = 1 }' <<<"$args")
   ui_ok "Remote paste key: ${key:-cmd}"
-  delay=$(awk 'f { print $1; f = 0 } $1 == "--chrome-delay" { f = 1 }' <<<"$args")
-  if [ "${delay:-0}" -gt 0 ] 2>/dev/null; then
-    ui_ok "Chrome paste delay: $delay ms"
+  if grep -qx '[[:space:]]*--chrome-type' <<<"$args"; then
+    ui_ok "Chrome typing mode: on"
   else
-    ui_info "Chrome paste delay: off"
+    ui_info "Chrome typing mode: off"
   fi
 else
   problem "Service file missing: $(ui_path "$PLIST"). Run ./install.sh"
